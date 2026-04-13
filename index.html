@@ -1,0 +1,2148 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ma Boutique</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #0f0e0c;
+    --surface: #1a1815;
+    --card: #201e1a;
+    --gold: #d4a853;
+    --gold-light: #f0c97a;
+    --text: #f5f0e8;
+    --muted: #9a9080;
+    --green: #25D366;
+    --radius: 16px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    max-width: 480px;
+    margin: 0 auto;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--surface);
+    padding: 28px 20px 20px;
+    text-align: center;
+    border-bottom: 1px solid #2e2b25;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .shop-logo {
+    width: 54px; height: 54px;
+    border-radius: 50%;
+    background: var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 10px;
+    font-size: 22px;
+    box-shadow: 0 0 24px rgba(212,168,83,0.3);
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--gold-light);
+    letter-spacing: 0.02em;
+  }
+
+  header p {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* BANNIERE PROMO */
+  .promo-banner {
+    background: linear-gradient(90deg, #d4a853 0%, #f0c97a 50%, #d4a853 100%);
+    background-size: 200% 100%;
+    animation: shimmer 3s ease-in-out infinite;
+    color: #1a1000;
+    text-align: center;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 8px 16px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* GRID PRODUITS */
+  .products {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    padding: 18px 14px;
+  }
+
+  /* CARTE LARGE (produit vedette) */
+  .card-featured {
+    grid-column: 1 / -1;
+    background: var(--card);
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid #2a2720;
+    display: flex;
+    flex-direction: row;
+    transition: transform 0.22s cubic-bezier(0.22,1,0.36,1), box-shadow 0.22s;
+    animation: fadeUp 0.55s cubic-bezier(0.22,1,0.36,1) both;
+  }
+
+  .card-featured .img-wrapper {
+    width: 50%;
+    flex-shrink: 0;
+    aspect-ratio: 1/1;
+  }
+
+  .card-featured .img-wrapper::after {
+    background: linear-gradient(to right, transparent 60%, var(--card));
+    height: 100%;
+    z-index: 1;
+  }
+
+  .card-featured .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 16px 14px;
+  }
+
+  .card-featured .card-name {
+    font-size: 1.05rem;
+  }
+
+  .card-featured .card-desc {
+    font-size: 0.75rem;
+  }
+
+  .card-featured .btn-order {
+    margin-top: 12px;
+  }
+
+  /* CARTE PRODUIT CLASSIQUE */
+  .card {
+    background: var(--card);
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid #2a2720;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.22s cubic-bezier(0.22,1,0.36,1), box-shadow 0.22s;
+    animation: fadeUp 0.55s cubic-bezier(0.22,1,0.36,1) both;
+  }
+
+  .card:hover, .card-featured:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 35px rgba(0,0,0,0.5), 0 0 18px rgba(212,168,83,0.12);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .card:nth-child(2) { animation-delay: 0.12s; }
+  .card:nth-child(3) { animation-delay: 0.18s; }
+  .card:nth-child(4) { animation-delay: 0.24s; }
+  .card:nth-child(5) { animation-delay: 0.30s; }
+  .card:nth-child(6) { animation-delay: 0.36s; }
+
+  /* IMAGE */
+  .img-wrapper {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .img-wrapper::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 45%;
+    background: linear-gradient(to top, var(--card), transparent);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .card-img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s cubic-bezier(0.22,1,0.36,1);
+  }
+
+  .card:hover .card-img {
+    transform: scale(1.06);
+  }
+
+  /* BADGE */
+  .badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 2;
+    display: inline-block;
+    background: rgba(15,14,12,0.7);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: var(--gold-light);
+    font-size: 0.58rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 4px 9px;
+    border-radius: 99px;
+    border: 1px solid rgba(212,168,83,0.2);
+  }
+
+  .card-body {
+    padding: 10px 10px 12px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 6px;
+  }
+
+  .card-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.88rem;
+    line-height: 1.3;
+    color: var(--text);
+    font-weight: 700;
+  }
+
+  .card-desc {
+    font-size: 0.72rem;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  /* BOUTON COMMANDER */
+  .btn-order {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: var(--green);
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 9px 10px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    width: 100%;
+    margin-top: auto;
+    transition: filter 0.15s, transform 0.15s, box-shadow 0.15s;
+  }
+
+  .btn-order:hover {
+    filter: brightness(1.12);
+    transform: scale(1.02);
+    box-shadow: 0 6px 18px rgba(37,211,102,0.3);
+  }
+
+  .btn-order svg { flex-shrink: 0; }
+
+  /* BOUTON CONTACT GLOBAL */
+  .contact-global {
+    margin: 6px 14px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: rgba(37,211,102,0.06);
+    border: 1.5px solid rgba(37,211,102,0.25);
+    color: var(--green);
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 12px;
+    border-radius: var(--radius);
+    text-decoration: none;
+    transition: background 0.2s, border-color 0.2s, transform 0.15s;
+  }
+
+  .contact-global:hover {
+    background: rgba(37,211,102,0.12);
+    border-color: var(--green);
+    transform: scale(1.01);
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 24px 16px;
+    font-size: 0.72rem;
+    color: var(--muted);
+    border-top: 1px solid #2a2720;
+    margin-top: 8px;
+  }
+
+  footer a {
+    color: var(--gold);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  footer a:hover { color: var(--gold-light); }
+
+  /* RESPONSIVE */
+  @media (max-width: 360px) {
+    .card-featured {
+      flex-direction: column;
+    }
+    .card-featured .img-wrapper {
+      width: 100%;
+    }
+    .card-featured .img-wrapper::after {
+      background: linear-gradient(to top, var(--card), transparent);
+      height: 45%;
+    }
+  }
+
+    /* Styles pour les sections de catégorie */
+    .category-section {
+      margin: 24px 0;
+      padding: 0 16px;
+    }
+
+    .category-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 20px;
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    .category-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 2px;
+      background: var(--gold);
+    }
+
+    @media (max-width: 480px) {
+      .category-section {
+        margin: 20px 0;
+      }
+
+      .category-title {
+        font-size: 1.2rem;
+        margin-bottom: 16px;
+      }
+    }
+
+
+    /* Styles pour les onglets */
+    .tabs-container {
+      background: var(--surface);
+      border-bottom: 1px solid #2e2b25;
+      position: sticky;
+      top: 0;
+      z-index: 90;
+    }
+
+    .tabs {
+      display: flex;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab-button {
+      flex: 1;
+      min-width: 80px;
+      padding: 12px 8px;
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+    }
+
+    .tab-button:hover {
+      color: var(--text);
+    }
+
+    .tab-button.active {
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+    }
+
+    .tab-pane {
+      display: none;
+    }
+
+    .tab-pane.active {
+      display: block;
+    }
+
+
+    /* Styles pour les onglets */
+    .tabs-container {
+      background: var(--surface);
+      border-bottom: 1px solid #2e2b25;
+      position: sticky;
+      top: 0;
+      z-index: 90;
+    }
+
+    .tabs {
+      display: flex;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab-button {
+      flex: 1;
+      min-width: 80px;
+      padding: 12px 8px;
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+    }
+
+    .tab-button:hover {
+      color: var(--text);
+    }
+
+    .tab-button.active {
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+    }
+
+    .tab-pane {
+      display: none;
+    }
+
+    .tab-pane.active {
+      display: block;
+    }
+
+
+    /* Styles pour les sections de catégorie */
+    .category-section {
+      margin: 24px 0;
+      padding: 0 16px;
+    }
+
+    .category-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 20px;
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    .category-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 2px;
+      background: var(--gold);
+    }
+
+    @media (max-width: 480px) {
+      .category-section {
+        margin: 20px 0;
+      }
+
+      .category-title {
+        font-size: 1.2rem;
+        margin-bottom: 16px;
+      }
+    }
+
+</style>
+
+    <style>
+    /* Styles pour les onglets */
+    .tabs-container {
+      background: var(--surface);
+      border-bottom: 1px solid #2e2b25;
+      position: sticky;
+      top: 0;
+      z-index: 90;
+    }
+
+    .tabs {
+      display: flex;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      gap: 2px;
+    }
+
+    .tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab-button {
+      flex: 1;
+      min-width: 80px;
+      padding: 12px 8px;
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+    }
+
+    .tab-button:hover {
+      color: var(--text);
+    }
+
+    .tab-button.active {
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+    }
+
+    .tab-pane {
+      display: none;
+    }
+
+    .tab-pane.active {
+      display: block;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      padding: 18px 14px;
+    }
+
+    @media (max-width: 480px) {
+      .products-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 16px 12px;
+      }
+    }
+    
+    /* Styles pour les onglets */
+    .tabs-container {
+      background: var(--surface);
+      border-bottom: 1px solid #2e2b25;
+      position: sticky;
+      top: 0;
+      z-index: 90;
+    }
+
+    .tabs {
+      display: flex;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab-button {
+      flex: 1;
+      min-width: 80px;
+      padding: 12px 8px;
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+    }
+
+    .tab-button:hover {
+      color: var(--text);
+    }
+
+    .tab-button.active {
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+    }
+
+    .tab-pane {
+      display: none;
+    }
+
+    .tab-pane.active {
+      display: block;
+    }
+
+
+    /* Styles pour les sections de catégorie */
+    .category-section {
+      margin: 24px 0;
+      padding: 0 16px;
+    }
+
+    .category-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 20px;
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    .category-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 2px;
+      background: var(--gold);
+    }
+
+    @media (max-width: 480px) {
+      .category-section {
+        margin: 20px 0;
+      }
+
+      .category-title {
+        font-size: 1.2rem;
+        margin-bottom: 16px;
+      }
+    }
+
+</style>
+
+    <script>
+    function showTab(tabName, el) {
+  // Masquer tous les panneaux (pas utilisés ici)
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+
+  // Désactiver tous les boutons
+  document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+
+  // Activer le bouton cliqué
+  if (el) el.classList.add('active');
+
+  // Cacher toutes les cartes
+  document.querySelectorAll('.card, .card-featured').forEach(c => c.style.display = 'none');
+
+  // Afficher les cartes correspondant à la catégorie sélectionnée
+  const target = tabName.toLowerCase();
+  document.querySelectorAll('.card, .card-featured').forEach(c => {
+    const badge = c.querySelector('.badge');
+    if (badge) {
+      const cat = badge.textContent.trim().toLowerCase();
+      if (target === 'all' || cat === target) {
+        c.style.display = '';
+      }
+    } else if (target === 'all') {
+      // la carte vedette n'a pas de badge, on la montre seulement dans "all"
+      c.style.display = '';
+    }
+  });
+
+      // Cacher tous les onglets
+      const tabPanes = document.querySelectorAll('.tab-pane');
+      tabPanes.forEach(pane => {
+        pane.classList.remove('active');
+      });
+
+      // Retirer la classe active de tous les boutons
+      const tabButtons = document.querySelectorAll('.tab-button');
+      tabButtons.forEach(button => {
+        button.classList.remove('active');
+      });
+
+      // Afficher l'onglet sélectionné
+      const selectedPane = document.getElementById(tabName);
+      if (selectedPane) {
+        selectedPane.classList.add('active');
+      }
+
+      // Ajouter la classe active au bouton correspondant
+      event.target.classList.add('active');
+    }
+    </script>
+
+
+    <style>
+    /* Styles pour les onglets */
+    .tabs-container {
+      background: var(--surface);
+      border-bottom: 1px solid #2e2b25;
+      position: sticky;
+      top: 0;
+      z-index: 90;
+    }
+
+    .tabs {
+      display: flex;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      gap: 2px;
+    }
+
+    .tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab-button {
+      flex: 1;
+      min-width: 80px;
+      padding: 12px 8px;
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+    }
+
+    .tab-button:hover {
+      color: var(--text);
+    }
+
+    .tab-button.active {
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+    }
+
+    .tab-pane {
+      display: none;
+    }
+
+    .tab-pane.active {
+      display: block;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      padding: 18px 14px;
+    }
+
+    @media (max-width: 480px) {
+      .products-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 16px 12px;
+      }
+    }
+    
+    /* Styles pour les onglets */
+    .tabs-container {
+      background: var(--surface);
+      border-bottom: 1px solid #2e2b25;
+      position: sticky;
+      top: 0;
+      z-index: 90;
+    }
+
+    .tabs {
+      display: flex;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab-button {
+      flex: 1;
+      min-width: 80px;
+      padding: 12px 8px;
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+    }
+
+    .tab-button:hover {
+      color: var(--text);
+    }
+
+    .tab-button.active {
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+    }
+
+    .tab-pane {
+      display: none;
+    }
+
+    .tab-pane.active {
+      display: block;
+    }
+
+
+    /* Styles pour les sections de catégorie */
+    .category-section {
+      margin: 24px 0;
+      padding: 0 16px;
+    }
+
+    .category-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 20px;
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    .category-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 2px;
+      background: var(--gold);
+    }
+
+    @media (max-width: 480px) {
+      .category-section {
+        margin: 20px 0;
+      }
+
+      .category-title {
+        font-size: 1.2rem;
+        margin-bottom: 16px;
+      }
+    }
+
+</style>
+
+    <script>
+    function showTab(tabName, el) {
+  // Masquer tous les panneaux (pas utilisés ici)
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+
+  // Désactiver tous les boutons
+  document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+
+  // Activer le bouton cliqué
+  if (el) el.classList.add('active');
+
+  // Cacher toutes les cartes
+  document.querySelectorAll('.card, .card-featured').forEach(c => c.style.display = 'none');
+
+  // Afficher les cartes correspondant à la catégorie sélectionnée
+  const target = tabName.toLowerCase();
+  document.querySelectorAll('.card, .card-featured').forEach(c => {
+    const badge = c.querySelector('.badge');
+    if (badge) {
+      const cat = badge.textContent.trim().toLowerCase();
+      if (target === 'all' || cat === target) {
+        c.style.display = '';
+      }
+    } else if (target === 'all') {
+      // la carte vedette n'a pas de badge, on la montre seulement dans "all"
+      c.style.display = '';
+    }
+  });
+
+      // Cacher tous les onglets
+      const tabPanes = document.querySelectorAll('.tab-pane');
+      tabPanes.forEach(pane => {
+        pane.classList.remove('active');
+      });
+
+      // Retirer la classe active de tous les boutons
+      const tabButtons = document.querySelectorAll('.tab-button');
+      tabButtons.forEach(button => {
+        button.classList.remove('active');
+      });
+
+      // Afficher l'onglet sélectionné
+      const selectedPane = document.getElementById(tabName);
+      if (selectedPane) {
+        selectedPane.classList.add('active');
+      }
+
+      // Ajouter la classe active au bouton correspondant
+      event.target.classList.add('active');
+    }
+    </script>
+
+</head>
+<body>
+
+<header>
+  <div class="shop-logo">&#10024;</div>
+  <h1>Ma Boutique</h1>
+  <p>Livraison rapide &middot; Qualit&eacute; garantie</p>
+</header>
+
+<div class="promo-banner">&#128293; Nouveaut&eacute;s disponibles &middot; Commandez maintenant</div>
+
+<!-- ════ GRILLE PRODUITS ════ -->
+<div class="tabs-container">
+  <div class="tabs">
+    <button class="tab-button active" onclick="showTab('tous', this)">Tous</button>
+    <button class="tab-button" onclick="showTab('robes', this)">Robes</button>
+    <button class="tab-button" onclick="showTab('hauts', this)">Hauts</button>
+    <button class="tab-button" onclick="showTab('pantalons', this)">Pantalons</button>
+    <button class="tab-button" onclick="showTab('pulls', this)">Pulls</button>
+    <button class="tab-button" onclick="showTab('chaussures', this)">Chaussures</button>
+    <button class="tab-button" onclick="showTab('sacs', this)">Sacs</button>
+  </div>
+</div>
+<div class="products">
+<!-- NOT USED -->
+
+  <!-- PRODUIT VEDETTE : Mocassins Daim -->
+  <div class="card-featured">
+    <div class="img-wrapper">
+      <img class="card-img" src="products/photo_2026-04-07_17-29-22.jpg" alt="Mocassins daim noir" loading="lazy"/>
+      <span class="badge">&#11088; Vedette</span>
+    </div>
+    <div class="card-body">
+      <div class="card-name">Mocassins Daim Noir</div>
+      <div class="card-desc">Daim premium, semelle cuir orange, finition &eacute;l&eacute;gante</div>
+      <div class="card-desc" style="color: var(--gold); font-weight: 600;">&mdash; Disponible en toutes tailles &mdash;</div>
+      <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Mocassins%20Daim%20Noir*%20%F0%9F%91%9E" target="_blank">
+        Commander &#9658;
+      </a>
+    </div>
+  </div>
+
+
+      <!-- PRODUIT : Chaussures N°1 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/c1.jpg" alt="Chaussures N°1" loading="lazy"/>
+          <span class="badge">Chaussures</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Chaussures N°1</div>
+          <div class="card-desc">Confort et style pour toutes vos occasions. Modèle tendance avec une finition soignée.</div>
+                    <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Chaussures N°1*%20👟" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Chaussures N°10 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/c10.jpg" alt="Chaussures N°10" loading="lazy"/>
+          <span class="badge">Chaussures</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Chaussures N°10</div>
+          <div class="card-desc">Élégance et praticité réunies. Parfait pour un look décontracté ou habillé.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Chaussures N°10*%20👟" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+     
+        
+
+      <!-- PRODUIT : Chaussures N°12 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/c12.jpg" alt="Chaussures N°12" loading="lazy"/>
+          <span class="badge">Chaussures</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Chaussures N°12</div>
+          <div class="card-desc">Design moderne et matières durables. Un indispensable de votre garde-robe.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Chaussures N°12*%20👟" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Chaussures N°13 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/c13.jpg" alt="Chaussures N°13" loading="lazy"/>
+          <span class="badge">Chaussures</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Chaussures N°13</div>
+          <div class="card-desc">Confort et style pour toutes vos occasions. Modèle tendance avec une finition soignée.</div>
+                    <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Chaussures N°13*%20👟" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Chaussures N°14 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/c14.jpg" alt="Chaussures N°14" loading="lazy"/>
+          <span class="badge">Chaussures</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Chaussures N°14</div>
+          <div class="card-desc">Élégance et praticité réunies. Parfait pour un look décontracté ou habillé.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Chaussures N°14*%20👟" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Chaussures N°15 (2) -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/c15 (2).jpg" alt="Chaussures N°15 (2)" loading="lazy"/>
+          <span class="badge">Chaussures</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Chaussures N°15 (2)</div>
+          <div class="card-desc">Qualité premium, semelle antidérapante. Idéal pour le quotidien.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Chaussures N°15 (2)*%20👟" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Chaussures N°15 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/c15.jpg" alt="Chaussures N°15" loading="lazy"/>
+          <span class="badge">Chaussures</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Chaussures N°15</div>
+          <div class="card-desc">Design moderne et matières durables. Un indispensable de votre garde-robe.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Chaussures N°15*%20👟" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Chaussures N°16 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/c16.jpg" alt="Chaussures N°16" loading="lazy"/>
+          <span class="badge">Chaussures</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Chaussures N°16</div>
+          <div class="card-desc">Confort et style pour toutes vos occasions. Modèle tendance avec une finition soignée.</div>
+                    <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Chaussures N°16*%20👟" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Chaussures N°17 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/c17.jpg" alt="Chaussures N°17" loading="lazy"/>
+          <span class="badge">Chaussures</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Chaussures N°17</div>
+          <div class="card-desc">Élégance et praticité réunies. Parfait pour un look décontracté ou habillé.</div>
+           8 500 F<a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Chaussures N°17*%20👟" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Chaussures N°18 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/c18.jpg" alt="Chaussures N°18" loading="lazy"/>
+          <span class="badge">Chaussures</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Chaussures N°18</div>
+          <div class="card-desc">Qualité premium, semelle antidérapante. Idéal pour le quotidien.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Chaussures N°18*%20👟" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Chaussures N°19 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/c19.jpg" alt="Chaussures N°19" loading="lazy"/>
+          <span class="badge">Chaussures</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Chaussures N°19</div>
+          <div class="card-desc">Design moderne et matières durables. Un indispensable de votre garde-robe.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Chaussures N°19*%20👟" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Chaussures N°2 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/c2.jpg" alt="Chaussures N°2" loading="lazy"/>
+          <span class="badge">Chaussures</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Chaussures N°2</div>
+          <div class="card-desc">Confort et style pour toutes vos occasions. Modèle tendance avec une finition soignée.</div>
+                    <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Chaussures N°2*%20👟" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Chaussures N°20 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/c20.jpg" alt="Chaussures N°20" loading="lazy"/>
+          <span class="badge">Chaussures</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Chaussures N°20</div>
+          <div class="card-desc">Élégance et praticité réunies. Parfait pour un look décontracté ou habillé.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Chaussures N°20*%20👟" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Chaussures N°21 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/c21.jpg" alt="Chaussures N°21" loading="lazy"/>
+          <span class="badge">Chaussures</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Chaussures N°21</div>
+          <div class="card-desc">Qualité premium, semelle antidérapante. Idéal pour le quotidien.</div>
+          <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Chaussures N°21*%20👟" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Chaussures N°22 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/c22.jpg" alt="Chaussures N°22" loading="lazy"/>
+          <span class="badge">Chaussures</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Chaussures N°22</div>
+          <div class="card-desc">Design moderne et matières durables. Un indispensable de votre garde-robe.</div>
+          <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Chaussures N°22*%20👟" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Chaussures N°23 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/c23.jpg" alt="Chaussures N°23" loading="lazy"/>
+          <span class="badge">Chaussures</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Chaussures N°23</div>
+          <div class="card-desc">Confort et style pour toutes vos occasions. Modèle tendance avec une finition soignée.</div>
+                    <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Chaussures N°23*%20👟" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Chaussures N°24 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/c24.jpg" alt="Chaussures N°24" loading="lazy"/>
+          <span class="badge">Chaussures</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Chaussures N°24</div>
+          <div class="card-desc">Élégance et praticité réunies. Parfait pour un look décontracté ou habillé.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Chaussures N°24*%20👟" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Chaussures N°26 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/c26.jpg" alt="Chaussures N°26" loading="lazy"/>
+          <span class="badge">Chaussures</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Chaussures N°26</div>
+          <div class="card-desc">Qualité premium, semelle antidérapante. Idéal pour le quotidien.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Chaussures N°26*%20👟" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Chaussures N°27 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/c27.jpg" alt="Chaussures N°27" loading="lazy"/>
+          <span class="badge">Chaussures</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Chaussures N°27</div>
+          <div class="card-desc">Design moderne et matières durables. Un indispensable de votre garde-robe.</div>
+          <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Chaussures N°27*%20👟" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Chaussures N°28 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/c28.jpg" alt="Chaussures N°28" loading="lazy"/>
+          <span class="badge">Chaussures</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Chaussures N°28</div>
+          <div class="card-desc">Confort et style pour toutes vos occasions. Modèle tendance avec une finition soignée.</div>
+                    <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Chaussures N°28*%20👟" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Chaussures N°29 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/c29.jpg" alt="Chaussures N°29" loading="lazy"/>
+          <span class="badge">Chaussures</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Chaussures N°29</div>
+          <div class="card-desc">Élégance et praticité réunies. Parfait pour un look décontracté ou habillé.</div>
+          <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Chaussures N°29*%20👟" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Chaussures N°3 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/c3.jpg" alt="Chaussures N°3" loading="lazy"/>
+          <span class="badge">Chaussures</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Chaussures N°3</div>
+          <div class="card-desc">Qualité premium, semelle antidérapante. Idéal pour le quotidien.</div>
+          <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Chaussures N°3*%20👟" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Chaussures N°30 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/c30.jpg" alt="Chaussures N°30" loading="lazy"/>
+          <span class="badge">Chaussures</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Chaussures N°30</div>
+          <div class="card-desc">Design moderne et matières durables. Un indispensable de votre garde-robe.</div>
+          <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Chaussures N°30*%20👟" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Chaussures N°31 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/c31.jpg" alt="Chaussures N°31" loading="lazy"/>
+          <span class="badge">Chaussures</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Chaussures N°31</div>
+          <div class="card-desc">Confort et style pour toutes vos occasions. Modèle tendance avec une finition soignée.</div>
+                    <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Chaussures N°31*%20👟" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Chaussures N°32 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/c32.jpg" alt="Chaussures N°32" loading="lazy"/>
+          <span class="badge">Chaussures</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Chaussures N°32</div>
+          <div class="card-desc">Élégance et praticité réunies. Parfait pour un look décontracté ou habillé.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Chaussures N°32*%20👟" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Chaussures N°33 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/c33.jpg" alt="Chaussures N°33" loading="lazy"/>
+          <span class="badge">Chaussures</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Chaussures N°33</div>
+          <div class="card-desc">Qualité premium, semelle antidérapante. Idéal pour le quotidien.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Chaussures N°33*%20👟" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Chaussures N°34 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/c34.jpg" alt="Chaussures N°34" loading="lazy"/>
+          <span class="badge">Chaussures</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Chaussures N°34</div>
+          <div class="card-desc">Design moderne et matières durables. Un indispensable de votre garde-robe.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Chaussures N°34*%20👟" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Chaussures N°4 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/c4.jpg" alt="Chaussures N°4" loading="lazy"/>
+          <span class="badge">Chaussures</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Chaussures N°4</div>
+          <div class="card-desc">Confort et style pour toutes vos occasions. Modèle tendance avec une finition soignée.</div>
+                    <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Chaussures N°4*%20👟" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Chaussures N°5 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/c5.jpg" alt="Chaussures N°5" loading="lazy"/>
+          <span class="badge">Chaussures</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Chaussures N°5</div>
+          <div class="card-desc">Élégance et praticité réunies. Parfait pour un look décontracté ou habillé.</div>
+          <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Chaussures N°5*%20👟" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Chaussures N°6 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/c6.jpg" alt="Chaussures N°6" loading="lazy"/>
+          <span class="badge">Chaussures</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Chaussures N°6</div>
+          <div class="card-desc">Qualité premium, semelle antidérapante. Idéal pour le quotidien.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Chaussures N°6*%20👟" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Chaussures N°7 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/c7.jpg" alt="Chaussures N°7" loading="lazy"/>
+          <span class="badge">Chaussures</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Chaussures N°7</div>
+          <div class="card-desc">Design moderne et matières durables. Un indispensable de votre garde-robe.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Chaussures N°7*%20👟" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Chaussures N°8 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/c8.jpg" alt="Chaussures N°8" loading="lazy"/>
+          <span class="badge">Chaussures</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Chaussures N°8</div>
+          <div class="card-desc">Confort et style pour toutes vos occasions. Modèle tendance avec une finition soignée.</div>
+                    <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Chaussures N°8*%20👟" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Chaussures N°9 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/c9.jpg" alt="Chaussures N°9" loading="lazy"/>
+          <span class="badge">Chaussures</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Chaussures N°9</div>
+          <div class="card-desc">Élégance et praticité réunies. Parfait pour un look décontracté ou habillé.</div>
+          <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Chaussures N°9*%20👟" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Haut N°1 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/h1.jpg" alt="Haut N°1" loading="lazy"/>
+          <span class="badge">Hauts</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Haut N°1</div>
+          <div class="card-desc">Moderne et polyvalent, ce haut se porte en toutes circonstances.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Haut N°1*%20👕" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Haut N°2 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/h2.jpg" alt="Haut N°2" loading="lazy"/>
+          <span class="badge">Hauts</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Haut N°2</div>
+          <div class="card-desc">Coupe flatteuse et tissu de qualité. Un indispensable.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Haut N°2*%20👕" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Haut N°5 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/h5.jpg" alt="Haut N°5" loading="lazy"/>
+          <span class="badge">Hauts</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Haut N°5</div>
+          <div class="card-desc">Style contemporain avec des détails soignés. Très confortable.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Haut N°5*%20👕" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Pull N°1 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/p1.jpg" alt="Pull N°1" loading="lazy"/>
+          <span class="badge">Pulls</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Pull N°1</div>
+          <div class="card-desc">Douillet et chaleureux, parfait pour les saisons fraîches.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Pull N°1*%20🧥" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Pull N°10 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/p10.jpg" alt="Pull N°10" loading="lazy"/>
+          <span class="badge">Pulls</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Pull N°10</div>
+          <div class="card-desc">Modèle cosy avec une coupe moderne. Très agréable à porter.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Pull N°10*%20🧥" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Pull N°11 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/p11.jpg" alt="Pull N°11" loading="lazy"/>
+          <span class="badge">Pulls</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Pull N°11</div>
+          <div class="card-desc">Chaleur et style combinés. Un essentiel de l'automne-hiver.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Pull N°11*%20🧥" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Pull N°12 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/p12.jpg" alt="Pull N°12" loading="lazy"/>
+          <span class="badge">Pulls</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Pull N°12</div>
+          <div class="card-desc">Matière douce et respirante. Confort garanti.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Pull N°12*%20🧥" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Pull N°13 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/p13.jpg" alt="Pull N°13" loading="lazy"/>
+          <span class="badge">Pulls</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Pull N°13</div>
+          <div class="card-desc">Douillet et chaleureux, parfait pour les saisons fraîches.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Pull N°13*%20🧥" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Pull N°14 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/p14.jpg" alt="Pull N°14" loading="lazy"/>
+          <span class="badge">Pulls</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Pull N°14</div>
+          <div class="card-desc">Modèle cosy avec une coupe moderne. Très agréable à porter.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Pull N°14*%20🧥" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Pull N°15 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/p15.jpg" alt="Pull N°15" loading="lazy"/>
+          <span class="badge">Pulls</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Pull N°15</div>
+          <div class="card-desc">Chaleur et style combinés. Un essentiel de l'automne-hiver.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Pull N°15*%20🧥" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Pull N°16 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/p16.jpg" alt="Pull N°16" loading="lazy"/>
+          <span class="badge">Pulls</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Pull N°16</div>
+          <div class="card-desc">Matière douce et respirante. Confort garanti.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Pull N°16*%20🧥" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Pull N°18 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/p18.jpg" alt="Pull N°18" loading="lazy"/>
+          <span class="badge">Pulls</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Pull N°18</div>
+          <div class="card-desc">Douillet et chaleureux, parfait pour les saisons fraîches.</div>
+         <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Pull N°18*%20🧥" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Pull N°19 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/p19.jpg" alt="Pull N°19" loading="lazy"/>
+          <span class="badge">Pulls</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Pull N°19</div>
+          <div class="card-desc">Modèle cosy avec une coupe moderne. Très agréable à porter.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Pull N°19*%20🧥" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Pull N°2 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/p2.jpg" alt="Pull N°2" loading="lazy"/>
+          <span class="badge">Pulls</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Pull N°2</div>
+          <div class="card-desc">Chaleur et style combinés. Un essentiel de l'automne-hiver.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Pull N°2*%20🧥" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Pull N°20 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/p20.jpg" alt="Pull N°20" loading="lazy"/>
+          <span class="badge">Pulls</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Pull N°20</div>
+          <div class="card-desc">Matière douce et respirante. Confort garanti.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Pull N°20*%20🧥" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Pull N°3 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/p3.jpg" alt="Pull N°3" loading="lazy"/>
+          <span class="badge">Pulls</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Pull N°3</div>
+          <div class="card-desc">Douillet et chaleureux, parfait pour les saisons fraîches.</div>
+        <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Pull N°3*%20🧥" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Pull N°4 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/p4.jpg" alt="Pull N°4" loading="lazy"/>
+          <span class="badge">Pulls</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Pull N°4</div>
+          <div class="card-desc">Modèle cosy avec une coupe moderne. Très agréable à porter.</div>
+          <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Pull N°4*%20🧥" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Pull N°5 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/p5.jpg" alt="Pull N°5" loading="lazy"/>
+          <span class="badge">Pulls</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Pull N°5</div>
+          <div class="card-desc">Chaleur et style combinés. Un essentiel de l'automne-hiver.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Pull N°5*%20🧥" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Pull N°6 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/p6.jpg" alt="Pull N°6" loading="lazy"/>
+          <span class="badge">Pulls</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Pull N°6</div>
+          <div class="card-desc">Matière douce et respirante. Confort garanti.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Pull N°6*%20🧥" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Pull N°7 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/p7.jpg" alt="Pull N°7" loading="lazy"/>
+          <span class="badge">Pulls</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Pull N°7</div>
+          <div class="card-desc">Douillet et chaleureux, parfait pour les saisons fraîches.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Pull N°7*%20🧥" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Pull N°8 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/p8.jpg" alt="Pull N°8" loading="lazy"/>
+          <span class="badge">Pulls</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Pull N°8</div>
+          <div class="card-desc">Modèle cosy avec une coupe moderne. Très agréable à porter.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Pull N°8*%20🧥" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Pull N°87 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/p87.jpg" alt="Pull N°87" loading="lazy"/>
+          <span class="badge">Pulls</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Pull N°87</div>
+          <div class="card-desc">Chaleur et style combinés. Un essentiel de l'automne-hiver.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Pull N°87*%20🧥" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Pull N°9 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/p9.jpg" alt="Pull N°9" loading="lazy"/>
+          <span class="badge">Pulls</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Pull N°9</div>
+          <div class="card-desc">Matière douce et respirante. Confort garanti.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Pull N°9*%20🧥" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Pantalon N°1 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/pa1.jpg" alt="Pantalon N°1" loading="lazy"/>
+          <span class="badge">Pantalons</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Pantalon N°1</div>
+          <div class="card-desc">Coupe ajustée qui flatte la silhouette. Tissu agréable à porter.</div>
+           5 500 F<a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Pantalon N°1*%20👖" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Pantalon N°6 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/pa6.jpg" alt="Pantalon N°6" loading="lazy"/>
+          <span class="badge">Pantalons</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Pantalon N°6</div>
+          <div class="card-desc">Stylé et confortable, ce pantalon s'adapte à toutes les situations.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Pantalon N°6*%20👖" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Pantalon N°65 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/pa65.jpg" alt="Pantalon N°65" loading="lazy"/>
+          <span class="badge">Pantalons</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Pantalon N°65</div>
+          <div class="card-desc">Matière de qualité, finitions impeccables. Un basique intemporel.</div>
+                    <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Pantalon N°65*%20👖" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Pantalon N°78 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/pa78.jpg" alt="Pantalon N°78" loading="lazy"/>
+          <span class="badge">Pantalons</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Pantalon N°78</div>
+          <div class="card-desc">Confort optimal throughout la journée. Design contemporain.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Pantalon N°78*%20👖" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Pantalon N°84 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/pa84.jpg" alt="Pantalon N°84" loading="lazy"/>
+          <span class="badge">Pantalons</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Pantalon N°84</div>
+          <div class="card-desc">Coupe ajustée qui flatte la silhouette. Tissu agréable à porter.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Pantalon N°84*%20👖" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Pantalon N°96 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/pa96.jpg" alt="Pantalon N°96" loading="lazy"/>
+          <span class="badge">Pantalons</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Pantalon N°96</div>
+          <div class="card-desc">Stylé et confortable, ce pantalon s'adapte à toutes les situations.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Pantalon N°96*%20👖" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Robe N°1 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/r1.jpg" alt="Robe N°1" loading="lazy"/>
+          <span class="badge">Robes</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Robe N°1</div>
+          <div class="card-desc">Féminité et élégance pour toutes vos occasions spéciales.</div>
+          <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Robe N°1*%20👗" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Robe N°2 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/r2.jpg" alt="Robe N°2" loading="lazy"/>
+          <span class="badge">Robes</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Robe N°2</div>
+          <div class="card-desc">Design raffiné avec une coupe qui sublime la silhouette.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Robe N°2*%20👗" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Sac N°1 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/s1.jpg" alt="Sac N°1" loading="lazy"/>
+          <span class="badge">Sacs</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Sac N°1</div>
+          <div class="card-desc">Pratique et élégant, ce sac vous accompagne au quotidien.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Sac N°1*%20👜" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Sac N°2 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/s2.jpg" alt="Sac N°2" loading="lazy"/>
+          <span class="badge">Sacs</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Sac N°2</div>
+          <div class="card-desc">Espace généreux avec plusieurs compartiments. Idéal pour toutes vos affaires.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Sac N°2*%20👜" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Sac N°3 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/s3.jpg" alt="Sac N°3" loading="lazy"/>
+          <span class="badge">Sacs</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Sac N°3</div>
+          <div class="card-desc">Design sophistiqué avec des finitions de qualité.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Sac N°3*%20👜" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Sac N°4 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/s4.jpg" alt="Sac N°4" loading="lazy"/>
+          <span class="badge">Sacs</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Sac N°4</div>
+          <div class="card-desc">Fonctionnel et stylé, c'est l'accessoire indispensable.</div>
+                     <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Sac N°4*%20👜" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Sac N°5 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/s5.jpg" alt="Sac N°5" loading="lazy"/>
+          <span class="badge">Sacs</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Sac N°5</div>
+          <div class="card-desc">Pratique et élégant, ce sac vous accompagne au quotidien.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Sac N°5*%20👜" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Sac N°51 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/s51.jpg" alt="Sac N°51" loading="lazy"/>
+          <span class="badge">Sacs</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Sac N°51</div>
+          <div class="card-desc">Espace généreux avec plusieurs compartiments. Idéal pour toutes vos affaires.</div>
+          <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Sac N°51*%20👜" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Sac N°6 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/s6.jpg" alt="Sac N°6" loading="lazy"/>
+          <span class="badge">Sacs</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Sac N°6</div>
+          <div class="card-desc">Design sophistiqué avec des finitions de qualité.</div>
+           <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Sac N°6*%20👜" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+
+      <!-- PRODUIT : Sac N°9 -->
+      <div class="card">
+        <div class="img-wrapper">
+          <img class="card-img" src="products/s9.jpg" alt="Sac N°9" loading="lazy"/>
+          <span class="badge">Sacs</span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Sac N°9</div>
+          <div class="card-desc">Fonctionnel et stylé, c'est l'accessoire indispensable.</div>
+                     <a class="btn-order" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20veux%20commander%20%3A%20*Sac N°9*%20👜" target="_blank">
+            Commander →
+          </a>
+        </div>
+      </div>
+        
+<!-- BOUTON CONTACT GLOBAL -->
+<a class="contact-global" href="https://wa.me/237651867043?text=Bonjour%2C%20je%20voudrais%20en%20savoir%20plus" target="_blank">
+  &#128172; Nous contacter sur WhatsApp
+</a>
+
+<footer>
+  <p>&copy; 2026 Ma Boutique &middot; Tous droits r&eacute;serv&eacute;s</p>
+  <p style="margin-top:4px; color: #5a5348; font-size: 0.65rem; letter-spacing: 0.05em; text-transform: uppercase;">
+    Fait pour AAI Corporation
+  </p>
+  <p style="margin-top:8px;">
+    <a href="https://wa.me/237651867043">Contactez-nous</a>
+  </p>
+</footer>
+
+</body>
+</html>
